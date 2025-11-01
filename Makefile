@@ -3,7 +3,7 @@ build:
 	cd build && make
 
 run : build
-	./build/fluidsim $(ARGS)
+	./build/fluidsim
 
 clean:
 	rm -rf build/*
