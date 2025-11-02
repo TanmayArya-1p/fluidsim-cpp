@@ -1,10 +1,9 @@
 #pragma once
-#include<cstddef>
-
+#include <cstddef>
 
 #define CLAMP_BOUNDS 1
 
-constexpr float DELTA_T =0.001f;
+constexpr float DELTA_T = 0.001f;
 constexpr int GAUSS_SEIDEL_ITERATIONS = 30;
 constexpr float GAUSS_SEIDEL_SOR = 1.8f;
 
