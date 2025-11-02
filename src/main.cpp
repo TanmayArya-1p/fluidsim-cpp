@@ -14,12 +14,7 @@ int main() {
     bool paused = false;
     int frames = 0;
 
-    // for (int i = 30; i < 50; ++i) {
-    //     for (int j = 30; j < 50; ++j) {
-    //         f->vel_x[i][j] = 5.0f;
-    //     }
-    // }
-
+    constexpr auto s_per_frame = std::chrono::duration_cast<std::chrono::duration<float>>(std::chrono::seconds(1) / TARGET_FPS);
     auto start_time = std::chrono::high_resolution_clock::now();
     auto force_dir_distr = std::uniform_real_distribution<float>(-1, 1);
 
@@ -86,16 +81,21 @@ int main() {
 
         frames++;
 
-        auto f_end_time = std::chrono::high_resolution_clock::now();
-        auto dur = std::chrono::duration_cast<std::chrono::seconds>(f_end_time - start_time).count();
-        
-        if(frames>=100) {
-            float fps = frames / static_cast<float>(dur);
+
+        if(frames>=TARGET_FPS*5) {
+            auto now = std::chrono::high_resolution_clock::now();
+            auto dur = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count();
+            float fps = frames / dur;
             std::cout << "fps: " << fps << std::endl;
             frames = 0;
-            start_time = f_end_time;
+            start_time = now;
         }
 
-        std::this_thread::sleep_for(std::chrono::microseconds(20));
+        auto f_end_time = std::chrono::high_resolution_clock::now();
+        auto frame_dur = f_end_time - f_start_time;
+        if(frame_dur < s_per_frame) {
+            std::this_thread::sleep_for(s_per_frame - frame_dur);
+        }
+
     }
 }
