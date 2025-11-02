@@ -5,8 +5,6 @@
 #define x first
 #define y second
 
-#define IX(pt) pt.x][pt.y
-
 namespace defs {
 
 template <size_t N , size_t M>
